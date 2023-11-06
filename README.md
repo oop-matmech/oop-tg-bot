@@ -1,8 +1,9 @@
 # oop-tg-bot
 
-![image](https://github.com/oop-matmech/oop-tg-bot/assets/73172033/6ae7657a-a180-4ae6-a0ad-33e11d2ba0e6)
-I'M ABOUTTA BLOWW
-AMABATUKAM
+![image](https://github.com/oop-matmech/oop-tg-bot/assets/73172033/2d13faa8-590b-4150-b213-d46ee55c5eb6)
+
+
+Телеграм бот агрегатор музыки с разных сервисов. Проект по ООП матмех 2023.
 
 >Project includes this stack:
 >
