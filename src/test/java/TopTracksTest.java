@@ -18,6 +18,6 @@ public class TopTracksTest {
     @Test
     void getTopTrackTest() {
         assertEquals("My Love Mine All Mine", musicTopTracks.getTopTracks().get(0).getName());
-        assertEquals("Cruel Summer", musicTopTracks.getTopTracks().get(1).getName());
+        assertEquals("Style (Taylor's Version)", musicTopTracks.getTopTracks().get(1).getName());
     }
 }
