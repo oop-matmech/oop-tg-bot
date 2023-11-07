@@ -3,6 +3,7 @@ package org.example.bot.command;
 import org.example.bot.Bot;
 import org.example.bot.communicator.ICommunicator;
 import org.example.service.music.MusicApi;
+import org.example.utils.FormatArtists;
 import org.example.utils.FormatTracks;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -14,6 +15,7 @@ public class CommandHandler {
 
     private final MusicApi musicApi = new MusicApi();
     private FormatTracks formatTracks = new FormatTracks();
+    private FormatArtists formatArtists = new FormatArtists();
 
     public CommandHandler(Bot bot, ICommunicator communicator) {
         this.bot = bot;
@@ -54,7 +56,7 @@ public class CommandHandler {
                 );
             }
             case GET_SINGERS -> {
-                String api = formatTracks.format(musicApi.getTopTracks());
+                String api = formatArtists.format(musicApi.getTopArtists());
                 String res = String.format("Список исполнителей: %s", api);
                 communicator.sendText(
                         bot,
