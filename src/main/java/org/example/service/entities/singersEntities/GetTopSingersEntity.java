@@ -16,9 +16,9 @@ public class GetTopSingersEntity {
         public GetTopSingersEntity.Attr attr;
     }
 
-    protected GetTopSingersEntity.GetTopSingersBody artists;
+    protected GetTopSingersBody artists;
 
-    public GetTopSingersEntity.GetTopSingersBody getSingers() {
+    public GetTopSingersBody getSingers() {
         return artists;
     }
 

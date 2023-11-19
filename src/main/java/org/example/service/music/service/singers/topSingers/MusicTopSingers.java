@@ -29,6 +29,7 @@ public class MusicTopSingers implements IMusicTopSingers {
                 .addQueryParameter("page", "1")
                 .addQueryParameter("limit", "10");
 
+
         String url = urlBuilder.build().toString();
 
         Request request = new Request.Builder()
@@ -42,8 +43,8 @@ public class MusicTopSingers implements IMusicTopSingers {
             ArrayList<GetTopItemSingersEntity> res = getTopArtistsEntity.getSingers().artist;
             return res;
 
-        } catch (IOException e) {
-            System.out.println(String.format("SOMETHING WENT WRONG: %s", e.toString()));
+        } catch (Exception e) {
+            System.out.println(String.format("SOMETHING WENT WRONG: %s", e.getMessage().toString()));
             return new ArrayList<GetTopItemSingersEntity>();
         }
     }

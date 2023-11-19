@@ -14,7 +14,7 @@ public class TopTracksTest {
         musicTopTracks = new MusicTopTracks();
     }
 
-    @DisplayName("Test name")
+    @DisplayName("Tracks test")
     @Test
     void getTopTrackTest() {
         assertEquals("My Love Mine All Mine", musicTopTracks.getTopTracks().get(0).getName());

@@ -56,6 +56,13 @@ public class CommandHandler {
                 );
             }
             case GET_SINGERS -> {
+                communicator.sendText(
+                        bot,
+                        message.getFrom().getId(),
+                        """
+                                Загрузка...
+                                """.trim()
+                );
                 String api = formatArtists.format(musicApi.getTopArtists());
                 String res = String.format("Список исполнителей: %s", api);
                 communicator.sendText(
