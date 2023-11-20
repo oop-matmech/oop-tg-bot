@@ -10,23 +10,19 @@ import java.sql.Connection;
 public class Database implements IDbMethods {
 
     private Connection connection = null;
-    private final SongsTable songsTable = new SongsTable();
-    private final UserTable userTable = new UserTable();
-    private final PlayListTable playListTable = new PlayListTable();
+    private SongsTable songsTable = new SongsTable();
+    private UserTable userTable = new UserTable();
+    private PlayListTable playListTable = new PlayListTable();
 
     public Connection getConnection() {
         return connection;
     }
 
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
     @Override
     public boolean setConnection() {
         SetDbConnection setConnection = new SetDbConnection();
-        connection = setConnection.make(connection);
-        if (connection != null) {
+        this.connection = setConnection.make(connection);
+        if (this.connection != null) {
             System.out.println("You successfully connected to database now");
             return true;
         } else {
@@ -37,8 +33,16 @@ public class Database implements IDbMethods {
 
     @Override
     public void initializeDb() {
+        System.out.println(connection.toString());
         userTable.create(connection);
         songsTable.create(connection);
         playListTable.create(connection);
+        System.out.println("INITIALIZED TABLES");
     }
+
+    public UserTable getUserTable() {
+        return this.userTable;
+    }
+
+
 }

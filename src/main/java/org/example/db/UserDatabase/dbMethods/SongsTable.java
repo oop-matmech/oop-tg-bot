@@ -2,7 +2,7 @@ package org.example.db.UserDatabase.dbMethods;
 
 import java.sql.Connection;
 
-public class SongsTable extends CreateStatement {
+public class SongsTable extends Table {
     private static final String TABLE_NAME = "songs";
     private static final String COLUMN_ID = "id";
     private static final String NAME = "name";
@@ -18,13 +18,13 @@ public class SongsTable extends CreateStatement {
                 URL + " TEXT, " +
                 ARTIST_NAME + " VARCHAR(200)" +
                 ");";
-        super.create(connection, query);
+        super.createStatement(connection, query);
     }
 
     public void insertRow(Connection connection, String name, Integer duration, String url, String artistName) {
         String query = String.format("INSERT INTO %s(%s, %s, %s, %s)", TABLE_NAME, NAME, DURATION, URL, ARTIST_NAME);
-        String values = String.format(" VALUES('%s', '%s', '%s');", name, duration, url, artistName);
+        String values = String.format(" VALUES('%s', '%s', '%s', '%s');", name, duration, url, artistName);
         query = query.concat(values);
-        super.create(connection, query);
+        super.createStatement(connection, query);
     }
 }

@@ -14,6 +14,8 @@ public class Main {
         db.setConnection();
         db.initializeDb();
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        botsApi.registerBot(new Bot());
+        Bot bot = new Bot();
+        bot.setDb(db);
+        botsApi.registerBot(bot);
     }
 }
