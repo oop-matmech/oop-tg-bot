@@ -40,22 +40,21 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         var message = update.getMessage();
 
-        try {
-            String id = message.getFrom().getId().toString();
-            String userName = message.getFrom().getUserName();
-            ResultSet rs = db.getUserTable().getItemById(db.getConnection(), id);
-            ResultSet rsAll = db.getUserTable().getAll(db.getConnection());
-            while (rs.next()) {
-                System.out.println(rs.getString(UserTable.COLUMN_ID));
-                System.out.println(rs.getString(UserTable.TG_ID));
-                System.out.println(rs.getString(UserTable.TG_NAME));
-            }
-        } catch (NullPointerException e) {
-            System.out.println("fucking npe: " + e.getMessage());
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            String id = message.getFrom().getId().toString();
+//            String userName = message.getFrom().getUserName();
+//            ResultSet rs = db.getUserTable().getItemById(db.getConnection(), id);
+//            if (rs == null) {
+//                db.getUserTable().insertRow(db.getConnection(), userName, id);
+//            } else {
+//                System.out.println("EXISTS: " + db.getUserTable().getItemById(db.getConnection(), id).getString(UserTable.TG_NAME));
+//            }
+//        } catch (NullPointerException e) {
+//            System.out.println("fucking npe: " + e.getMessage());
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
 
         if (message.isCommand()) {
             var command = CommandHandler.toCommand(message.getText());
