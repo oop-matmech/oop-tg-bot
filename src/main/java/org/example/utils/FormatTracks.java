@@ -14,7 +14,7 @@ public class FormatTracks {
                                 + "DURATION: " + it.getDuration() + "\n"
                                 + "LISTENERS: " + it.getListeners()
                 )
-                .collect(Collectors.joining("\n"));
+                .collect(Collectors.joining("\n\n"));
         return res;
     }
 }

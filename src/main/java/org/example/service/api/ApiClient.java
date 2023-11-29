@@ -7,8 +7,13 @@ import okhttp3.Response;
 import java.io.IOException;
 
 public class ApiClient {
+    private final OkHttpClient okHttpClient;
 
-    public Response getResponse(Request request, OkHttpClient okHttpClient) {
+    public ApiClient(OkHttpClient _okHttpClient) {
+        this.okHttpClient = _okHttpClient;
+    }
+
+    public Response getResponse(Request request) {
         Response response = null;
         try {
             response = okHttpClient.newCall(request).execute();

@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MusicTopTracks implements IMusicTopTracks {
-    public ApiBaseConfig apiBaseConfig = new ApiBaseConfig();
+    private final ApiBaseConfig apiBaseConfig = new ApiBaseConfig();
+    private final ApiClient apiClient = new ApiClient(apiBaseConfig.okHttpClient);
+    private final Mapper<GetTopTracksEntity> mapper = new Mapper<>();
 
     @Override
     public ArrayList<GetTopItemTrackEntity> getTopTracks() {
@@ -34,9 +36,7 @@ public class MusicTopTracks implements IMusicTopTracks {
                 .url(url)
                 .build();
 
-        ApiClient apiClient = new ApiClient();
-        Mapper<GetTopTracksEntity> mapper = new Mapper<>();
-        try (Response rsp = apiClient.getResponse(request, apiBaseConfig.okHttpClient)) {
+        try (Response rsp = apiClient.getResponse(request)) {
             GetTopTracksEntity getTopTracsEntity = mapper.mapObject(rsp.body().string(), GetTopTracksEntity.class);
             ArrayList<GetTopItemTrackEntity> res = getTopTracsEntity.getTracks().track;
             return res;

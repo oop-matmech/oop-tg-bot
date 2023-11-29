@@ -1,6 +1,9 @@
 package org.example.db.UserDatabase.dbMethods;
 
+import org.example.db.UserDatabase.dbEntities.UserEntity;
+
 import java.sql.Connection;
+import java.sql.ResultSet;
 
 public class PlayListTable extends Table {
     private static final String TABLE_NAME = "playlists";
@@ -28,4 +31,19 @@ public class PlayListTable extends Table {
         query = query.concat(values);
         super.createStatement(connection, query);
     }
+
+    public ResultSet getItemById(Connection connection, String id) {
+        ResultSet rs = super.getItemById(connection, TABLE_NAME, id);
+        return rs;
+    }
+
+    public void updatePlaylist(Connection connection, Integer songId, Integer playlistId) {
+        String query = String.format(
+                "update %s set " +
+                        SONGS_IDS + " ='%s' " +
+                        "where " + COLUMN_ID + "='%s'",
+                TABLE_NAME, songId, playlistId);
+        super.createStatement(connection, query);
+    }
+
 }

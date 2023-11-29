@@ -6,5 +6,8 @@ public enum Command {
     ABOUT,
     GET_SINGERS,
     GET_POPULAR,
-    UNKNOWN
+    UNKNOWN,
+    ADD_SONG,
+    SHARE_PLAYLIST,
+    GET_PLAYLIST
 }
