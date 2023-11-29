@@ -41,7 +41,8 @@ public class Bot extends TelegramLongPollingBot {
         var message = update.getMessage();
 
         if (message.isCommand()) {
-            var command = CommandHandler.toCommand(message.getText());
+            var args = message.getText().trim().split(" ");
+            var command = CommandHandler.toCommand(args[0]);
             commandHandler.handle(command, message);
         } else {
             communicator.copyMessage(this, message);

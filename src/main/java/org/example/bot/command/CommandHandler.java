@@ -52,12 +52,12 @@ public class CommandHandler {
                 );
             }
             case HELP -> {
+                var args = message.getText().trim().split(" ");
+                var res = args.length > 1 ? args[1] : args[0];
                 communicator.sendText(
                         bot,
                         message.getFrom().getId(),
-                        """
-                                А кому щас легко
-                                """.trim()
+                        helper(res).trim()
                 );
             }
             case ABOUT -> {
@@ -67,6 +67,8 @@ public class CommandHandler {
                         """
                                 /get_singers - список исполнителей
                                 /get_popular - список популярных треков
+                                /start - запуск
+                                /about - о командах
                                 """.trim()
                 );
             }
@@ -136,6 +138,17 @@ public class CommandHandler {
             case "/add" -> Command.ADD_SONG;
             case "/get_playlist" -> Command.GET_PLAYLIST;
             default -> Command.UNKNOWN;
+        };
+    }
+
+    public static String helper(String command) {
+        return switch (command) {
+            case "about" -> "информация о командах";
+            case "get_popular" -> "Список исполнителей";
+            case "share" -> "Делиться плейлистом";
+            case "add" -> "Добавить песню";
+            case "get_playlist" -> "Получить плейлист";
+            default -> "А кому щас легко";
         };
     }
 
