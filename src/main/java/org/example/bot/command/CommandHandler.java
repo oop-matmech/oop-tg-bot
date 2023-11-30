@@ -12,7 +12,6 @@ import java.util.HashMap;
  *
  * @author StAl15
  */
-//some
 public class CommandHandler {
 
     private final Bot bot;
@@ -23,10 +22,23 @@ public class CommandHandler {
         this.communicator = communicator;
     }
 
+    /**
+     * Функция выполнения команды
+     *
+     * @param command строка команды
+     * @param message объект сообщения тг
+     */
     public void handle(String command, Message message) {
         getCommand(command, message).execute();
     }
 
+    /**
+     * Функция извлечения команды
+     *
+     * @param command команда
+     * @param message объект сообщения тг
+     * @return CommunicatorWrapper - объект команды с коммуникатором
+     */
     public CommunicatorWrapper getCommand(String command, Message message) {
         HashMap<String, CommunicatorWrapper> hashMap = new HashMap<>();
         hashMap.put("/start", new StartCommand());

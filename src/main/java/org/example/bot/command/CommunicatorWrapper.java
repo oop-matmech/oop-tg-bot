@@ -1,10 +1,13 @@
-package org.example.bot.command.listCommands;
+package org.example.bot.command;
 
 import org.example.bot.Bot;
 import org.example.bot.command.Command;
 import org.example.bot.communicator.ICommunicator;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+/**
+ * Класс с набором полей для обработки сообщения в тг
+ */
 public class CommunicatorWrapper implements Command {
     protected ICommunicator communicator;
     protected Message message;

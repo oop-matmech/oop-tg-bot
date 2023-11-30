@@ -2,6 +2,7 @@ package org.example.bot.command.listCommands;
 
 import org.example.bot.Bot;
 import org.example.bot.command.Command;
+import org.example.bot.command.CommunicatorWrapper;
 import org.example.bot.communicator.ICommunicator;
 import org.example.service.music.MusicApi;
 import org.example.utils.FormatArtists;
