@@ -1,25 +1,44 @@
 package org.example.db.UserDatabase.dbEntities;
 
+
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "users")
 public class UserEntity {
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "name", unique = true)
     private String name;
-    private String tg_id;
-    private List<Integer> fk_playlists_ids;
 
-    public UserEntity(Integer _id, String _name, String _tg_id, List<Integer> _fk_playlists_ids) {
-        this.id = _id;
-        this.fk_playlists_ids = _fk_playlists_ids;
-        this.tg_id = _tg_id;
-        this.name = _name;
+    @Column(name = "tg_id", unique = true)
+    private String tg_id;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<PlayListEntity> playlists;
+
+    public UserEntity() {
     }
 
-    public Integer getId() {
+    public UserEntity(String name, String tg_id) {
+        this.name = name;
+        this.tg_id = tg_id;
+        this.playlists = new ArrayList<>();
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -39,11 +58,29 @@ public class UserEntity {
         this.tg_id = tg_id;
     }
 
-    public List<Integer> getFk_playlists_ids() {
-        return fk_playlists_ids;
+    public List<PlayListEntity> getPlaylists() {
+        return playlists;
     }
 
-    public void setFk_playlists_ids(List<Integer> fk_playlists_ids) {
-        this.fk_playlists_ids = fk_playlists_ids;
+    public void setPlaylists(List<PlayListEntity> playlists) {
+        this.playlists = playlists;
+    }
+
+    public void addPlaylist(PlayListEntity playList) {
+        playList.setUser(this);
+        this.playlists.add(playList);
+    }
+
+    public void removePlaylist(int playListId) {
+        this.playlists.remove(playListId);
+    }
+
+    @Override
+    public String toString() {
+        return "models.User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", tg_id=" + tg_id +
+                '}';
     }
 }
