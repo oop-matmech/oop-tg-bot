@@ -4,11 +4,8 @@ import org.example.bot.Bot;
 import org.example.bot.communicator.ICommunicator;
 import org.example.db.UserDatabase.dao.PlayListDao;
 import org.example.db.UserDatabase.dao.SongDao;
-import org.example.db.UserDatabase.dao.UserDao;
 import org.example.db.UserDatabase.dbEntities.PlayListEntity;
 import org.example.db.UserDatabase.dbEntities.UserEntity;
-import org.example.db.UserDatabase.dbService.PlayListService;
-import org.example.db.UserDatabase.dbService.SongsService;
 import org.example.db.UserDatabase.dbService.UserService;
 import org.example.service.music.MusicApi;
 import org.example.utils.FormatArtists;
@@ -29,7 +26,7 @@ public class CommandHandler {
     private final ICommunicator communicator;
     private final SongDao songDao = new SongDao();
     private final PlayListDao playListDao = new PlayListDao();
-    private final UserDao userDao = new UserDao();
+    private final UserService userService = new UserService();
     private final MusicApi musicApi = new MusicApi();
     private final FormatTracks formatTracks = new FormatTracks();
     private final FormatArtists formatArtists = new FormatArtists();
@@ -110,21 +107,17 @@ public class CommandHandler {
                 }
             }
             case CREATE_PLAYLIST -> {
-                var args = message.getText().replace("/create_playlist", "").split(" ");
+                var args = message.getText().replace("/create_playlist", "").trim().split(" ");
                 var from = message.getFrom();
-                var isEmpty = userDao.findAll()
-                        .stream()
-                        .filter(it -> it.getName() == from.getUserName())
-                        .toList()
-                        .get(0) == null;
+                var isExist = !userService.findByName(from.getUserName()).getName().isEmpty();
                 try {
-                    if (isEmpty) {
+                    if (!isExist) {
                         UserEntity user = new UserEntity(from.getUserName(), from.getId().toString());
-                        userDao.save(user);
+                        userService.save(user);
                     }
-                    var currUser = userDao.findByName(from.getUserName());
+                    var currUser = userService.findByName(from.getUserName());
                     PlayListEntity playList = new PlayListEntity(args[0], args[1], currUser);
-                    userDao.addPlaylist(currUser.getId(), playList);
+                    userService.addPlaylist(currUser.getId(), playList);
                     communicator.sendText(
                             bot,
                             message.getFrom().getId(),

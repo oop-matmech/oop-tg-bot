@@ -9,7 +9,7 @@ public interface IPlaylistMethods {
 
     public PlayListEntity findByName(String name);
 
-    public void save(PlayListEntity playlist);
+    public int save(PlayListEntity playlist);
 
     public void update(PlayListEntity playlist);
 

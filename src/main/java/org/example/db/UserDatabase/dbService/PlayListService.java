@@ -17,8 +17,8 @@ public class PlayListService implements IPlaylistMethods {
         return playListDao.findByName(name);
     }
 
-    public void save(PlayListEntity playlist) {
-        playListDao.save(playlist);
+    public int save(PlayListEntity playlist) {
+        return playListDao.save(playlist);
     }
 
     public void update(PlayListEntity playlist) {

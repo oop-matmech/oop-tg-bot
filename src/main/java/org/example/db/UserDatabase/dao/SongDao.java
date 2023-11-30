@@ -18,7 +18,7 @@ public class SongDao implements ISongMethods {
     public void save(SongEntity song) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        session.save(song);
+        session.persist(song);
         tx1.commit();
         session.close();
     }
@@ -26,7 +26,7 @@ public class SongDao implements ISongMethods {
     public void update(SongEntity song) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        session.update(song);
+        session.merge(song);
         tx1.commit();
         session.close();
     }
@@ -34,7 +34,7 @@ public class SongDao implements ISongMethods {
     public void delete(SongEntity song) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        session.delete(song);
+        session.remove(song);
         tx1.commit();
         session.close();
     }

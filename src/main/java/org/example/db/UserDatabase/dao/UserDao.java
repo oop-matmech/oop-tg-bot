@@ -2,21 +2,31 @@ package org.example.db.UserDatabase.dao;
 
 import org.example.db.UserDatabase.dbEntities.PlayListEntity;
 import org.example.db.UserDatabase.dbEntities.UserEntity;
+import org.example.db.UserDatabase.dbService.PlayListService;
 import org.example.db.UserDatabase.models.IUserMethods;
 import org.example.db.UserDatabase.utils.HibernateUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
 public class UserDao implements IUserMethods {
+
+    private final PlayListService playListService = new PlayListService();
+
     public UserEntity findById(int id) {
         return HibernateUtils.getSessionFactory().openSession().get(UserEntity.class, id);
     }
 
     public UserEntity findByName(String name) {
         try {
-            UserEntity user = findAll().stream().filter(it -> it.getName() == name).toList().get(0);
+            Session session = HibernateUtils.getSessionFactory().openSession();
+            Transaction tx1 = session.beginTransaction();
+            Query<UserEntity> query = session.createQuery("From UserEntity where name='" + name + "'", UserEntity.class);
+            UserEntity user = query.getSingleResultOrNull();
+            tx1.commit();
+            session.close();
             return user;
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
@@ -27,7 +37,7 @@ public class UserDao implements IUserMethods {
     public void save(UserEntity user) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        session.save(user);
+        session.persist(user);
         tx1.commit();
         session.close();
     }
@@ -35,7 +45,7 @@ public class UserDao implements IUserMethods {
     public void update(UserEntity user) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        session.update(user);
+        session.merge(user);
         tx1.commit();
         session.close();
     }
@@ -43,7 +53,7 @@ public class UserDao implements IUserMethods {
     public void delete(UserEntity user) {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
-        session.delete(user);
+        session.remove(user);
         tx1.commit();
         session.close();
     }
@@ -52,8 +62,10 @@ public class UserDao implements IUserMethods {
         Session session = HibernateUtils.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         UserEntity user = findById(userId);
+        int plId = playListService.save(playList);
+        playList.setId(plId);
         user.addPlaylist(playList);
-        session.update(user);
+        session.merge(user);
         tx1.commit();
         session.close();
     }
@@ -63,13 +75,18 @@ public class UserDao implements IUserMethods {
         Transaction tx1 = session.beginTransaction();
         UserEntity user = findById(userId);
         user.removePlaylist(playListId);
-        session.update(user);
+        session.merge(user);
         tx1.commit();
         session.close();
     }
 
     public List<UserEntity> findAll() {
-        List<UserEntity> users = HibernateUtils.getSessionFactory().openSession().createQuery("From users", UserEntity.class).list();
+        Session session = HibernateUtils.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        Query<UserEntity> query = session.createQuery("From UserEntity", UserEntity.class);
+        List<UserEntity> users = query.list();
+        tx1.commit();
+        session.close();
         return users;
     }
 }
