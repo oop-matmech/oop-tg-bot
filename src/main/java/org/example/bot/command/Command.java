@@ -9,5 +9,6 @@ public enum Command {
     UNKNOWN,
     ADD_SONG,
     SHARE_PLAYLIST,
-    GET_PLAYLIST
+    GET_PLAYLIST,
+    CREATE_PLAYLIST
 }

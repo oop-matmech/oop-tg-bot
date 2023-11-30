@@ -2,16 +2,20 @@ package org.example.bot.command;
 
 import org.example.bot.Bot;
 import org.example.bot.communicator.ICommunicator;
-import org.example.db.UserDatabase.Database;
-import org.example.db.UserDatabase.dbMethods.PlayListTable;
-import org.example.db.UserDatabase.dbMethods.SongsTable;
-import org.example.db.UserDatabase.dbMethods.UserTable;
+import org.example.db.UserDatabase.dao.PlayListDao;
+import org.example.db.UserDatabase.dao.SongDao;
+import org.example.db.UserDatabase.dao.UserDao;
+import org.example.db.UserDatabase.dbEntities.PlayListEntity;
+import org.example.db.UserDatabase.dbEntities.UserEntity;
+import org.example.db.UserDatabase.dbService.PlayListService;
+import org.example.db.UserDatabase.dbService.SongsService;
+import org.example.db.UserDatabase.dbService.UserService;
 import org.example.service.music.MusicApi;
 import org.example.utils.FormatArtists;
 import org.example.utils.FormatTracks;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Class responsable for command handle
@@ -23,14 +27,12 @@ public class CommandHandler {
 
     private final Bot bot;
     private final ICommunicator communicator;
-
+    private final SongDao songDao = new SongDao();
+    private final PlayListDao playListDao = new PlayListDao();
+    private final UserDao userDao = new UserDao();
     private final MusicApi musicApi = new MusicApi();
     private final FormatTracks formatTracks = new FormatTracks();
     private final FormatArtists formatArtists = new FormatArtists();
-    private final SongsTable songsTable = new SongsTable();
-    private final UserTable userTable = new UserTable();
-    private final PlayListTable playListTable = new PlayListTable();
-    private Database database = new Database();
 
     public CommandHandler(Bot bot, ICommunicator communicator) {
         this.bot = bot;
@@ -107,6 +109,37 @@ public class CommandHandler {
                     );
                 }
             }
+            case CREATE_PLAYLIST -> {
+                var args = message.getText().replace("/create_playlist", "").split(" ");
+                var from = message.getFrom();
+                var isEmpty = userDao.findAll()
+                        .stream()
+                        .filter(it -> it.getName() == from.getUserName())
+                        .toList()
+                        .get(0) == null;
+                try {
+                    if (isEmpty) {
+                        UserEntity user = new UserEntity(from.getUserName(), from.getId().toString());
+                        userDao.save(user);
+                    }
+                    var currUser = userDao.findByName(from.getUserName());
+                    PlayListEntity playList = new PlayListEntity(args[0], args[1], currUser);
+                    userDao.addPlaylist(currUser.getId(), playList);
+                    communicator.sendText(
+                            bot,
+                            message.getFrom().getId(),
+                            "Создан плейлист с именем: " + args[0]
+                    );
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    communicator.sendText(
+                            bot,
+                            message.getFrom().getId(),
+                            "Произошла ошибка: " + e.getMessage()
+                    );
+                }
+
+            }
             case GET_PLAYLIST -> {
 
             }
@@ -114,9 +147,6 @@ public class CommandHandler {
                 String songname = message.getText().replace("/add", "");
                 String username = message.getFrom().getUserName();
 
-                if (userTable.getItemByName(database.getConnection(), username) != null) {
-
-                }
             }
             case SHARE_PLAYLIST -> {
 
@@ -137,6 +167,7 @@ public class CommandHandler {
             case "/share" -> Command.SHARE_PLAYLIST;
             case "/add" -> Command.ADD_SONG;
             case "/get_playlist" -> Command.GET_PLAYLIST;
+            case "/create_playlist" -> Command.CREATE_PLAYLIST;
             default -> Command.UNKNOWN;
         };
     }
