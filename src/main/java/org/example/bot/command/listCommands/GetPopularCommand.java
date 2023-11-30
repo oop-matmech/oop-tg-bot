@@ -15,6 +15,9 @@ public class GetPopularCommand extends CommunicatorWrapper implements Command {
         super(communicator, message, bot);
     }
 
+    public GetPopularCommand() {
+    }
+
     @Override
     public void execute() {
         communicator.sendText(

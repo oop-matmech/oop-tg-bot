@@ -11,6 +11,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public class CreatePlaylistCommand extends CommunicatorWrapper implements Command {
     private final UserService userService = new UserService();
 
+    public CreatePlaylistCommand() {
+
+    }
+
     public CreatePlaylistCommand(ICommunicator communicator, Message message, Bot bot) {
         super(communicator, message, bot);
     }

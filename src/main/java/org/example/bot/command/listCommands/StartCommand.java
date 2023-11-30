@@ -10,6 +10,9 @@ public class StartCommand extends CommunicatorWrapper implements Command {
         super(communicator, message, bot);
     }
 
+    public StartCommand() {
+    }
+
     @Override
     public void execute() {
         communicator.sendText(

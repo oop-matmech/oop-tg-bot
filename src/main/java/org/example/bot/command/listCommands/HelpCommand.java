@@ -6,6 +6,9 @@ import org.example.bot.communicator.ICommunicator;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 public class HelpCommand extends CommunicatorWrapper implements Command {
+    public HelpCommand() {
+    }
+
     public HelpCommand(ICommunicator communicator, Message message, Bot bot) {
         super(communicator, message, bot);
     }

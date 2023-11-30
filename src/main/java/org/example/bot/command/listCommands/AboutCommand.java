@@ -10,6 +10,9 @@ public class AboutCommand extends CommunicatorWrapper implements Command {
         super(communicator, message, bot);
     }
 
+    public AboutCommand() {
+    }
+
     @Override
     public void execute() {
         communicator.sendText(

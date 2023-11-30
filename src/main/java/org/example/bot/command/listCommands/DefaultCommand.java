@@ -10,6 +10,9 @@ public class DefaultCommand extends CommunicatorWrapper implements Command {
         super(communicator, message, bot);
     }
 
+    public DefaultCommand() {
+    }
+
     @Override
     public void execute() {
         communicator.copyMessage(bot, message);

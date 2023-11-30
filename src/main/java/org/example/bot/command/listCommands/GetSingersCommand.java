@@ -11,6 +11,9 @@ public class GetSingersCommand extends CommunicatorWrapper implements Command {
     private final FormatArtists formatArtists = new FormatArtists();
     private final MusicApi musicApi = new MusicApi();
 
+    public GetSingersCommand() {
+    }
+
     public GetSingersCommand(ICommunicator communicator, Message message, Bot bot) {
         super(communicator, message, bot);
     }

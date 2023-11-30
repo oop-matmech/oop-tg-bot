@@ -27,15 +27,19 @@ public class CommandHandler {
         getCommand(command, message).execute();
     }
 
-    public Command getCommand(String command, Message message) {
-        HashMap<String, Command> hashMap = new HashMap<>();
-        hashMap.put("/start", new StartCommand(communicator, message, bot));
-        hashMap.put("/about", new AboutCommand(communicator, message, bot));
-        hashMap.put("/help", new HelpCommand(communicator, message, bot));
-        hashMap.put("/get_popular", new GetPopularCommand(communicator, message, bot));
-        hashMap.put("/add", new StartCommand(communicator, message, bot));
-        hashMap.put("/create_playlist", new CreatePlaylistCommand(communicator, message, bot));
-        return hashMap.getOrDefault(command, new DefaultCommand(communicator, message, bot));
+    public CommunicatorWrapper getCommand(String command, Message message) {
+        HashMap<String, CommunicatorWrapper> hashMap = new HashMap<>();
+        hashMap.put("/start", new StartCommand());
+        hashMap.put("/about", new AboutCommand());
+        hashMap.put("/help", new HelpCommand());
+        hashMap.put("/get_popular", new GetPopularCommand());
+        hashMap.put("/add", new StartCommand());
+        hashMap.put("/create_playlist", new CreatePlaylistCommand());
+        CommunicatorWrapper res = hashMap.getOrDefault(command, new DefaultCommand());
+        res.setMessage(message);
+        res.setBot(bot);
+        res.setCommunicator(communicator);
+        return res;
     }
 
 }
