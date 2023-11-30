@@ -10,6 +10,7 @@ public class Bot extends TelegramLongPollingBot {
 
     private final Communicator communicator = new Communicator();
     private final CommandHandler commandHandler = new CommandHandler(this, communicator);
+
     @Override
     public String getBotUsername() {
         return BotConfig.getBotName();
@@ -26,7 +27,7 @@ public class Bot extends TelegramLongPollingBot {
 
         if (message.isCommand()) {
             var args = message.getText().trim().split(" ");
-            var command = CommandHandler.toCommand(args[0]);
+            var command = args[0];
             commandHandler.handle(command, message);
         } else {
             communicator.copyMessage(this, message);
