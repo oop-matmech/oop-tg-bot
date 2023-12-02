@@ -6,6 +6,8 @@ import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.example.service.api.ApiBaseConfig;
+import org.example.service.api.ApiClient;
+import org.example.service.api.Mapper;
 import org.example.service.entities.singersEntities.GetTopItemSingersEntity;
 import org.example.service.entities.singersEntities.GetTopSingersEntity;
 import org.example.service.entities.tracksEntities.GetTopItemTrackEntity;
@@ -18,6 +20,8 @@ import java.util.Objects;
 
 public class MusicTopSingers implements IMusicTopSingers {
     public ApiBaseConfig apiBaseConfig = new ApiBaseConfig();
+    private final ApiClient apiClient = new ApiClient(apiBaseConfig.okHttpClient);
+    private final Mapper<GetTopSingersEntity> mapper = new Mapper<>();
 
     @Override
     public ArrayList<GetTopItemSingersEntity> getTopArtists() {
@@ -36,15 +40,12 @@ public class MusicTopSingers implements IMusicTopSingers {
                 .url(url)
                 .build();
 
-        try (Response response = apiBaseConfig.okHttpClient.newCall(request).execute()) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            GetTopSingersEntity getTopArtistsEntity = objectMapper.readValue(response.body().string(), GetTopSingersEntity.class);
-            ArrayList<GetTopItemSingersEntity> res = getTopArtistsEntity.getSingers().artist;
+        try (Response rsp = apiClient.getResponse(request)) {
+            GetTopSingersEntity getTopSingersEntity = mapper.mapObject(rsp.body().string(), GetTopSingersEntity.class);
+            ArrayList<GetTopItemSingersEntity> res = getTopSingersEntity.getSingers().artist;
             return res;
-
-        } catch (Exception e) {
-            System.out.println(String.format("SOMETHING WENT WRONG: %s", e.getMessage().toString()));
+        } catch (IOException e) {
+            System.out.println("ERROR: " + e.getMessage());
             return new ArrayList<GetTopItemSingersEntity>();
         }
     }
