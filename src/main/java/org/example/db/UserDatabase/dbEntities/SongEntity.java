@@ -10,6 +10,7 @@ import java.util.Set;
 public class SongEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(insertable = false, updatable = false)
     private int id;
 
     @Column(name = "name")
@@ -17,20 +18,21 @@ public class SongEntity {
     @Column(name = "duration")
     private double duration;
 
-    @Column(name = "url")
+    @Column(name = "url", unique = true)
     private String url;
 
     @Column(name = "artistName")
     private String artistName;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "playlistSongs",
-            joinColumns = {@JoinColumn(name = "playlistId", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "songId", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "songId", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "playlistId", referencedColumnName = "id")})
     private Set<PlayListEntity> playlists;
 
     public SongEntity() {
     }
+
     public SongEntity(String name, double duration, String url, String artistName) {
         this.name = name;
         this.duration = duration;
@@ -83,8 +85,20 @@ public class SongEntity {
         return playlists;
     }
 
+    public void addPlaylist(PlayListEntity playList) {
+        playlists.add(playList);
+    }
+
+    public void removePlaylist(PlayListEntity playList) {
+        playlists.remove(playList);
+    }
+
     public void setPlaylists(Set<PlayListEntity> playlists) {
         this.playlists = playlists;
     }
 
+    public String toString() {
+        String res = "name = " + name + " url = " + url + " artistName = " + artistName;
+        return res;
+    }
 }

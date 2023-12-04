@@ -20,17 +20,17 @@ public class AboutCommand extends CommunicatorWrapper implements Command {
                 bot,
                 message.getFrom().getId(),
                 """
-                        /get_singers - список исполнителей +
                         /get_popular - список популярных треков +
                         /start - запуск +
                         /about - о командах +
                         /help - помощь об избранной команде +
                         /create_playlist - создать плейлист +
-                        /add - добавить песню в плейлист -
-                        /get_playlist - получить плейлист -
-                        /share_playlist - получить ссылку на плейлист -
+                        /add - добавить песню в плейлист +
+                        /get_playlist - получить плейлист +
+                        /share_playlist - получить ссылку на плейлист +
                         /remove_playlist - удалить плейлист -
-                        /get_my_playlists - получить список моих плейлистов - 
+                        /get_my_playlists - получить список моих плейлистов + 
+                        /get_songs_from_playlist - получить список песен из плейлиста +
                         """.trim()
         );
     }

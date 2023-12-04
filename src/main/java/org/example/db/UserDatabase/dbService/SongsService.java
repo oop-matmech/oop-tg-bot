@@ -5,7 +5,7 @@ import org.example.db.UserDatabase.dbEntities.SongEntity;
 import org.example.db.UserDatabase.models.ISongMethods;
 
 public class SongsService implements ISongMethods {
-    private SongDao songDao = new SongDao();
+    private final SongDao songDao = new SongDao();
 
     public SongEntity findById(int id) {
         return songDao.findById(id);
@@ -13,6 +13,11 @@ public class SongsService implements ISongMethods {
 
     public SongEntity findByName(String name) {
         return songDao.findByName(name);
+    }
+
+    @Override
+    public SongEntity findByUrl(String url) {
+        return songDao.findByUrl(url);
     }
 
     public void save(SongEntity song) {

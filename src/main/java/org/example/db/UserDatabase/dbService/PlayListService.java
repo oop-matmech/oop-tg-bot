@@ -2,9 +2,11 @@ package org.example.db.UserDatabase.dbService;
 
 import org.example.db.UserDatabase.dao.PlayListDao;
 import org.example.db.UserDatabase.dbEntities.PlayListEntity;
+import org.example.db.UserDatabase.dbEntities.SongEntity;
 import org.example.db.UserDatabase.models.IPlaylistMethods;
 
 import java.util.List;
+import java.util.Set;
 
 public class PlayListService implements IPlaylistMethods {
     private final PlayListDao playListDao = new PlayListDao();
@@ -13,7 +15,7 @@ public class PlayListService implements IPlaylistMethods {
         return playListDao.findById(id);
     }
 
-    public PlayListEntity findByName(String name) {
+    public List<PlayListEntity> findByName(String name) {
         return playListDao.findByName(name);
     }
 
@@ -29,8 +31,23 @@ public class PlayListService implements IPlaylistMethods {
         playListDao.delete(playlist);
     }
 
+    @Override
+    public boolean addSongToPlaylist(int playlistId, SongEntity song) {
+        return playListDao.addSongToPlaylist(playlistId, song);
+    }
+
     public List<PlayListEntity> findAll() {
         return playListDao.findAll();
+    }
+
+    @Override
+    public Set<SongEntity> getSongsFromPlaylist(int playlistId) {
+        return playListDao.getSongsFromPlaylist(playlistId);
+    }
+
+    @Override
+    public List<PlayListEntity> getUserPlaylists(int userId) {
+        return playListDao.getUserPlaylists(userId);
     }
 
 }

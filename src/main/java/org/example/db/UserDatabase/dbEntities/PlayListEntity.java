@@ -13,6 +13,7 @@ public class PlayListEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(insertable = false, updatable = false)
     private int id;
 
     @Column(name = "name")
@@ -21,14 +22,14 @@ public class PlayListEntity {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "playlistSongs",
-            joinColumns = @JoinColumn(name = "songId", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "playlistId", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "playlistId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "songId", referencedColumnName = "id"))
     private Set<SongEntity> songs;
 
     public PlayListEntity() {
@@ -70,7 +71,11 @@ public class PlayListEntity {
     }
 
     public void addSong(SongEntity song) {
+        this.songs.add(song);
+    }
 
+    public void removeSong(SongEntity song) {
+        this.songs.remove(song);
     }
 
     public Set<SongEntity> getSongs() {
@@ -83,5 +88,14 @@ public class PlayListEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public String toString() {
+        return String.format("id = %s, name = %s, desc = %s, userId = %s",
+                id,
+                name,
+                description,
+                user.getId()
+        );
     }
 }

@@ -9,9 +9,12 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(insertable = false, updatable = false)
     private int id;
+
     @Column(name = "name", unique = true)
     private String name;
 
@@ -21,7 +24,8 @@ public class UserEntity {
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private List<PlayListEntity> playlists;
 
@@ -70,6 +74,7 @@ public class UserEntity {
         playList.setUser(this);
         this.playlists.add(playList);
     }
+
 
     public void removePlaylist(int playListId) {
         this.playlists.remove(playListId);

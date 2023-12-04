@@ -1,6 +1,7 @@
 package org.example.db.UserDatabase.dao;
 
 import org.example.db.UserDatabase.dbEntities.PlayListEntity;
+import org.example.db.UserDatabase.dbEntities.SongEntity;
 import org.example.db.UserDatabase.dbEntities.UserEntity;
 import org.example.db.UserDatabase.dbService.PlayListService;
 import org.example.db.UserDatabase.models.IUserMethods;

@@ -24,14 +24,14 @@ public class CreatePlaylistCommand extends CommunicatorWrapper implements Comman
     public void execute() {
         var args = message.getText().replace("/create_playlist", "").trim().split(" ");
         var from = message.getFrom();
-        var isExist = !userService.findByName(from.getUserName()).getName().isEmpty();
+        var isExist = userService.findByName(from.getUserName()) != null;
         try {
             if (!isExist) {
                 UserEntity user = new UserEntity(from.getUserName(), from.getId().toString());
                 userService.save(user);
             }
             var currUser = userService.findByName(from.getUserName());
-            PlayListEntity playList = new PlayListEntity(args[0], args[1], currUser);
+            PlayListEntity playList = new PlayListEntity(args[0], "", currUser);
             userService.addPlaylist(currUser.getId(), playList);
             communicator.sendText(
                     bot,

@@ -8,7 +8,7 @@ import org.example.db.UserDatabase.models.IUserMethods;
 import java.util.List;
 
 public class UserService implements IUserMethods {
-    private UserDao userDao = new UserDao();
+    private final UserDao userDao = new UserDao();
 
     public UserEntity findById(int id) {
         return userDao.findById(id);

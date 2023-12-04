@@ -45,8 +45,12 @@ public class CommandHandler {
         hashMap.put("/about", new AboutCommand());
         hashMap.put("/help", new HelpCommand());
         hashMap.put("/get_popular", new GetPopularCommand());
-        hashMap.put("/add", new StartCommand());
+        hashMap.put("/add", new AddSongCommand());
         hashMap.put("/create_playlist", new CreatePlaylistCommand());
+        hashMap.put("/get_songs_from_playlist", new GetSongsFromPlaylistCommand());
+        hashMap.put("/get_my_playlists", new GetMyPlaylistsCommand());
+        hashMap.put("/share_playlist", new SharePlaylistCommand());
+        hashMap.put("/get_playlist", new GetPlaylistCommand());
         CommunicatorWrapper res = hashMap.getOrDefault(command, new DefaultCommand());
         res.setMessage(message);
         res.setBot(bot);

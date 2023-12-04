@@ -6,6 +6,8 @@ public interface ISongMethods {
     public SongEntity findById(int id);
 
     public SongEntity findByName(String name);
+    public SongEntity findByUrl(String url);
+
 
     public void save(SongEntity song);
 
