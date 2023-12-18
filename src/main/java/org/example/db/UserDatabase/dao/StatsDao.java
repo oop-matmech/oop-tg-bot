@@ -19,7 +19,7 @@ public class StatsDao implements IStatsMethods {
         List<StatsEntity> stats = HibernateUtils
                 .getSessionFactory()
                 .openSession()
-                .createQuery("From StatsEntity where userId='" + userId + "'", StatsEntity.class)
+                .createQuery("From StatsEntity where user='" + userId + "'", StatsEntity.class)
                 .list();
         return stats;
     }
