@@ -51,6 +51,12 @@ public class CommandHandler {
         hashMap.put("/get_my_playlists", new GetMyPlaylistsCommand());
         hashMap.put("/share_playlist", new SharePlaylistCommand());
         hashMap.put("/get_playlist", new GetPlaylistCommand());
+        hashMap.put("/get_top_10_24h", new GetTopSongsCommand());
+        hashMap.put("/get_top_10_1w", new GetTopSongsCommand());
+        hashMap.put("/get_top_10_1m", new GetTopSongsCommand());
+        hashMap.put("/like", new LikeCommand());
+
+
         CommunicatorWrapper res = hashMap.getOrDefault(command, new DefaultCommand());
         res.setMessage(message);
         res.setBot(bot);

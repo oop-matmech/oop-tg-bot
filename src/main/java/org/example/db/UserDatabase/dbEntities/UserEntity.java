@@ -29,6 +29,22 @@ public class UserEntity {
     )
     private List<PlayListEntity> playlists;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    private List<StatsEntity> stats;
+
+    public List<StatsEntity> getStats() {
+        return stats;
+    }
+
+    public void setStats(List<StatsEntity> stats) {
+        this.stats = stats;
+    }
+
     public UserEntity() {
     }
 
@@ -36,6 +52,7 @@ public class UserEntity {
         this.name = name;
         this.tg_id = tg_id;
         this.playlists = new ArrayList<>();
+        this.stats = new ArrayList<>();
     }
 
     public int getId() {

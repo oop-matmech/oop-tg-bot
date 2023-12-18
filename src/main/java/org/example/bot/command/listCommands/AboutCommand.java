@@ -28,9 +28,11 @@ public class AboutCommand extends CommunicatorWrapper implements Command {
                         /add - добавить песню в плейлист +
                         /get_playlist - получить плейлист +
                         /share_playlist - получить ссылку на плейлист +
-                        /remove_playlist - удалить плейлист -
                         /get_my_playlists - получить список моих плейлистов + 
                         /get_songs_from_playlist - получить список песен из плейлиста +
+                        /get_top_10_24h - получить топ 10 треков за день -
+                        /get_top_10_1w - получить топ 10 треков за неделю -
+                        /get_top_10_1m - получить топ 10 треков за месяц -
                         """.trim()
         );
     }

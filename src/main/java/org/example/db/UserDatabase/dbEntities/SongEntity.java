@@ -2,7 +2,9 @@ package org.example.db.UserDatabase.dbEntities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,6 +32,22 @@ public class SongEntity {
             inverseJoinColumns = {@JoinColumn(name = "playlistId", referencedColumnName = "id")})
     private Set<PlayListEntity> playlists;
 
+    @OneToMany(
+            mappedBy = "song",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    private List<StatsEntity> stats;
+
+    public List<StatsEntity> getStats() {
+        return stats;
+    }
+
+    public void setStats(List<StatsEntity> stats) {
+        this.stats = stats;
+    }
+
     public SongEntity() {
     }
 
@@ -39,6 +57,7 @@ public class SongEntity {
         this.url = url;
         this.artistName = artistName;
         this.playlists = new HashSet<>();
+        this.stats = new ArrayList<>();
     }
 
     public int getId() {
