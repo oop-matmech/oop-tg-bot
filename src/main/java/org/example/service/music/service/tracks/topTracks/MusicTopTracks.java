@@ -28,7 +28,7 @@ public class MusicTopTracks implements IMusicTopTracks {
                 .addQueryParameter("api_key", ApiBaseConfig.apikey)
                 .addQueryParameter("format", "json")
                 .addQueryParameter("page", "1")
-                .addQueryParameter("limit", "30");
+                .addQueryParameter("limit", "10");
 
         String url = urlBuilder.build().toString();
 

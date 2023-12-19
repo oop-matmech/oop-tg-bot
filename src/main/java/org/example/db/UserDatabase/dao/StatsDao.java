@@ -35,13 +35,13 @@ public class StatsDao implements IStatsMethods {
 
     public List<StatsEntity> getStatsDay() {
         long now = System.currentTimeMillis();
-        long nowMinus24h = now + (24L * 60L * 60L * 1000L);
+        long nowMinus24h = now - (24L * 60L * 60L * 1000L);
         Timestamp limit = new Timestamp(nowMinus24h);
 
         List<StatsEntity> stats = HibernateUtils
                 .getSessionFactory()
                 .openSession()
-                .createQuery("From StatsEntity where timestamp < :limit", StatsEntity.class)
+                .createQuery("From StatsEntity where timestamp > :limit", StatsEntity.class)
                 .setParameter("limit", limit)
                 .list();
         return stats;
@@ -49,13 +49,13 @@ public class StatsDao implements IStatsMethods {
 
     public List<StatsEntity> getStatsWeek() {
         long now = System.currentTimeMillis();
-        long nowMinus24h = now + (7L * 24L * 60L * 60L * 1000L);
+        long nowMinus24h = now - (7L * 24L * 60L * 60L * 1000L);
         Timestamp limit = new Timestamp(nowMinus24h);
 
         List<StatsEntity> stats = HibernateUtils
                 .getSessionFactory()
                 .openSession()
-                .createQuery("From StatsEntity where timestamp < :limit", StatsEntity.class)
+                .createQuery("From StatsEntity where timestamp > :limit", StatsEntity.class)
                 .setParameter("limit", limit)
                 .list();
         return stats;
@@ -63,13 +63,13 @@ public class StatsDao implements IStatsMethods {
 
     public List<StatsEntity> getStatsMonth() {
         long now = System.currentTimeMillis();
-        long nowMinus24h = now + (4L * 7L * 24L * 60L * 60L * 1000L);
+        long nowMinus24h = now - (4L * 7L * 24L * 60L * 60L * 1000L);
         Timestamp limit = new Timestamp(nowMinus24h);
 
         List<StatsEntity> stats = HibernateUtils
                 .getSessionFactory()
                 .openSession()
-                .createQuery("From StatsEntity where timestamp < :limit", StatsEntity.class)
+                .createQuery("From StatsEntity where timestamp > :limit", StatsEntity.class)
                 .setParameter("limit", limit)
                 .list();
         return stats;
