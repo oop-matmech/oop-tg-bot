@@ -39,4 +39,5 @@ build/
 
 ### Custom ###
 src/main/resources/.env
+src/main/resources/hibernate.cfg.xml
 .idea
