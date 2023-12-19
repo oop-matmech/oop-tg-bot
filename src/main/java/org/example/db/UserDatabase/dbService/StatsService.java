@@ -7,13 +7,25 @@ import java.util.*;
 
 public class StatsService {
 
-    private SortedMap<String, Integer> toSortedMap(List<StatsEntity> lst) {
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
+    }
+
+    private Map<String, Integer> toSortedMap(List<StatsEntity> lst) {
+
         SortedMap<String, Integer> rs = new TreeMap<>();
         lst.forEach(stats -> {
             var statName = stats.getSong().getName();
             rs.merge(statName, 1, Integer::sum);
         });
-        return rs;
+        return sortByValue(rs);
     }
 
     private final StatsDao statsDao = new StatsDao();
@@ -34,7 +46,7 @@ public class StatsService {
     }
 
 
-    public SortedMap<String, Integer> getStatsDay() {
+    public Map<String, Integer> getStatsDay() {
         var res = statsDao.getStatsDay();
         var rs = toSortedMap(res);
         return rs;
@@ -42,14 +54,14 @@ public class StatsService {
     }
 
 
-    public SortedMap<String, Integer> getStatsWeek() {
+    public Map<String, Integer> getStatsWeek() {
         var res = statsDao.getStatsWeek();
         var rs = toSortedMap(res);
         return rs;
     }
 
 
-    public SortedMap<String, Integer> getStatsMonth() {
+    public Map<String, Integer> getStatsMonth() {
         var res = statsDao.getStatsMonth();
         var rs = toSortedMap(res);
         return rs;

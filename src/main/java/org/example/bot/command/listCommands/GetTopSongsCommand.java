@@ -53,11 +53,13 @@ public class GetTopSongsCommand extends CommunicatorWrapper implements Command {
 
 
         int idx = 1;
-        for (String key : itemStats.keySet()) {
+        var rs = itemStats.entrySet().toArray();
+        for (int i = rs.length-1; i >= 0; i--){
             if (idx == 11) {
                 break;
             } else {
-                res.append(String.format("%s. %s - %s прослушиваний \n", idx, key, itemStats.get(key)));
+                var newS = rs[i].toString().split("=");
+                res.append(String.format("%s. %s - %s прослушиваний \n", idx, newS[0], newS[1]));
                 idx++;
             }
         }
