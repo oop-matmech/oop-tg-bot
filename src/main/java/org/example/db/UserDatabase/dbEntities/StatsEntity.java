@@ -6,6 +6,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
+/** Сущность таблицы статистики - лайк.
+ *
+ *
+ */
 @Entity
 @Table(name = "stats")
 public class StatsEntity {
@@ -32,6 +36,13 @@ public class StatsEntity {
     @Column(name = "modify_date")
     private Date modifyDate;
 
+    /** Конструктор лайка
+     * <p>
+     * при вызове сохраняются поля timestamp и modifydate - время
+     * создания лайка и время изменения лайка соответственно.
+     * @param user сущность пользователя
+     * @param song сущность песни
+     */
     public StatsEntity(UserEntity user, SongEntity song) {
         this.user = user;
         this.song = song;

@@ -1,4 +1,5 @@
 import org.example.db.UserDatabase.dbEntities.PlayListEntity;
+import org.example.db.UserDatabase.dbEntities.StatsEntity;
 import org.example.db.UserDatabase.dbEntities.UserEntity;
 import org.example.db.UserDatabase.dbService.PlayListService;
 import org.example.db.UserDatabase.dbService.SongsService;
@@ -55,5 +56,12 @@ public class DataBaseTest {
         assertEquals(null, songsService.findById(-1));
         assertEquals(null, songsService.findByUrl(""));
 
+    }
+
+    @DisplayName("like test")
+    @Test
+    void testlikeMethods() {
+        var firstUser = userService.findById(1);
+        var firstStats = firstUser.getStats().get(0);
     }
 }

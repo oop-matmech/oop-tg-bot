@@ -48,7 +48,12 @@ public class AddSongCommand extends CommunicatorWrapper implements Command {
                 .toList()
                 .get(0);
         SongEntity newSong = new SongEntity(track.getName(), track.getDuration(), track.getUrl(), track.getArtist().name);
-        songsService.save(newSong);
+        try {
+            songsService.save(newSong);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         var currPlaylist = playListService
                 .findByName(playlistName)
