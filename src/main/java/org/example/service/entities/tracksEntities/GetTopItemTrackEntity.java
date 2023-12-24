@@ -54,7 +54,7 @@ public class GetTopItemTrackEntity {
     }
 
     public Integer getDuration() {
-        return duration;
+        return (duration == null) ? 0 : duration;
     }
 
     public Integer getPlaycount() {

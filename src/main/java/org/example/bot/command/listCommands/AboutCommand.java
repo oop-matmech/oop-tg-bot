@@ -20,8 +20,8 @@ public class AboutCommand extends CommunicatorWrapper implements Command {
                 bot,
                 message.getFrom().getId(),
                 """
-                        /start - запуск \n
-                        /about - о боте \n
+                        /start - запуск
+                        /about - о боте
                         /help - помощь об избранной команде \n\n
                         /get_popular - список популярных треков \n
                         /find [имя песни] - найти песню по названию \n

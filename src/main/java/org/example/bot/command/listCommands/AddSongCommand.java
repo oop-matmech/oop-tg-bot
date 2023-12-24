@@ -42,6 +42,20 @@ public class AddSongCommand extends CommunicatorWrapper implements Command {
         );
 
         var args = message.getText().split(" ");
+        if (args.length < 3) {
+            if (args.length == 1) {
+                messageOutput = "Не введены имя плейлиста и url песни";
+            }
+            if (args.length == 2) {
+                messageOutput = "Не введён url песни";
+            }
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    messageOutput
+            );
+            return;
+        }
         var playlistName = args[1];
         var url = args[2];
         var trashName = url.split("/");
@@ -56,36 +70,46 @@ public class AddSongCommand extends CommunicatorWrapper implements Command {
         if (!trackList.isEmpty()) {
             track = trackList.get(0);
             track = musicGetInfo.getTrackInfo(track.getName(), track.getArtist().name);
-        }
-        SongEntity newSong = new SongEntity(track.getName(), track.getDuration(), track.getUrl(), track.getArtist().name);
-        try {
-            songsService.save(newSong);
+            SongEntity newSong = new SongEntity(track.getName(), track.getDuration(), track.getUrl(), track.getArtist().name);
+            try {
+                songsService.save(newSong);
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        var currPlaylist = playListService
-                .findByName(playlistName)
-                .stream()
-                .filter(it -> it.getUser().getName().equals(message.getFrom().getUserName()))
-                .toList()
-                .get(0);
-
-        try {
-            SongEntity currSong = songsService.findByUrl(newSong.getUrl());
-            var res = playListService.addSongToPlaylist(currPlaylist.getId(), currSong);
-            currSong.addPlaylist(currPlaylist);
-            songsService.update(currSong);
-            if (res) {
-                messageOutput = "Песня успешно добавлена";
-            } else {
-                messageOutput = "Ошибка в формате";
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            messageOutput = "Завершено";
+            try {
+                var currentPlaylist = playListService.findByName(playlistName);
+                var currPlaylist = currentPlaylist
+                        .stream()
+                        .filter(it -> it.getUser().getName().equals(message.getFrom().getUserName()))
+                        .toList()
+                        .get(0);
+                try {
+                    SongEntity currSong = songsService.findByUrl(newSong.getUrl());
+                    var res = playListService.addSongToPlaylist(currPlaylist.getId(), currSong);
+                    currSong.addPlaylist(currPlaylist);
+                    songsService.update(currSong);
+                    if (res) {
+                        messageOutput = "Песня успешно добавлена";
+                    } else {
+                        messageOutput = "Ошибка в формате";
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    messageOutput = "Завершено.";
+                }
+            } catch (Exception e) {
+                messageOutput = "Плейлиста с таким именем не существует.";
+            } finally {
+                communicator.sendText(
+                        bot,
+                        message.getFrom().getId(),
+                        messageOutput
+                );
+            }
+        } else {
+            messageOutput = "Не удалось добавить песню.";
             communicator.sendText(
                     bot,
                     message.getFrom().getId(),
