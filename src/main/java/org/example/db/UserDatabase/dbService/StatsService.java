@@ -11,6 +11,15 @@ import java.util.*;
  */
 public class StatsService {
 
+    public class CountEntity {
+        public StatsEntity stats;
+        public String counter;
+
+        public CountEntity(StatsEntity stats, String counter) {
+            this.stats = stats;
+            this.counter = counter;
+        }
+    }
     /**
      * Метод сортировки map по значению
      * @param map объект сортировки
@@ -40,8 +49,8 @@ public class StatsService {
 
         SortedMap<String, Integer> rs = new TreeMap<>();
         lst.forEach(stats -> {
-            var statName = stats.getSong().getName() + " " + stats.getSong().getUrl();
-            rs.merge(statName, 1, Integer::sum);
+            String name = stats.getSong().getName();
+            rs.merge(name, 1, Integer::sum);
         });
         return sortByValue(rs);
     }
@@ -80,28 +89,85 @@ public class StatsService {
      * Формирование чарта за последние 24 часа от момента вызова метода.
      * @return map<StatsEntity> - чарт за день, отсортирован по убыванию  количества лайков
      */
-    public Map<String, Integer> getStatsDay() {
-        var res = statsDao.getStatsDay();
-        return toSortedMap(res);
-
+    public ArrayList<CountEntity> getStatsDay() {
+        ArrayList<CountEntity> result = new ArrayList<>();
+        var songs = statsDao.getStatsDay();
+        var res = toSortedMap(songs);
+        var rs = res.entrySet().toArray();
+        int idx = 1;
+        for (int i = rs.length - 1; i >= 0; i--) {
+            if (idx == 11) {
+                break;
+            } else {
+                var newS = rs[i].toString().split("=");
+                for (StatsEntity elem : songs) {
+                    if (elem.getSong().getName().equals(newS[0])) {
+                        CountEntity ce = new CountEntity(elem, newS[1]);
+                        result.add(ce);
+                        break;
+                    }
+                }
+                idx++;
+            }
+        }
+        return result;
     }
+
 
     /**
      * Формирование чарта за последнюю неделю от момента вызова метода.
      * @return map<StatsEntity> - чарт за неделю, отсортирован по убыванию  количества лайков
      */
-    public Map<String, Integer> getStatsWeek() {
-        var res = statsDao.getStatsWeek();
-        return toSortedMap(res);
+    public ArrayList<CountEntity> getStatsWeek() {
+        ArrayList<CountEntity> result = new ArrayList<>();
+        var songs = statsDao.getStatsWeek();
+        var res = toSortedMap(songs);
+        var rs = res.entrySet().toArray();
+        int idx = 1;
+        for (int i = rs.length - 1; i >= 0; i--) {
+            if (idx == 11) {
+                break;
+            } else {
+                var newS = rs[i].toString().split("=");
+                for (StatsEntity elem : songs) {
+                    if (elem.getSong().getName().equals(newS[0])) {
+                        CountEntity ce = new CountEntity(elem, newS[1]);
+                        result.add(ce);
+                        break;
+                    }
+                }
+                idx++;
+            }
+        }
+        return result;
     }
 
     /**
      * Формирование чарта за последний месяц от момента вызова метода.
      * @return map<StatsEntity> - чарт за месяц, отсортирован по убыванию  количества лайков
      */
-    public Map<String, Integer> getStatsMonth() {
-        var res = statsDao.getStatsMonth();
-        return toSortedMap(res);
+    public ArrayList<CountEntity> getStatsMonth() {
+        ArrayList<CountEntity> result = new ArrayList<>();
+        var songs = statsDao.getStatsMonth();
+        var res = toSortedMap(songs);
+        var rs = res.entrySet().toArray();
+        int idx = 1;
+        for (int i = rs.length - 1; i >= 0; i--) {
+            if (idx == 11) {
+                break;
+            } else {
+                var newS = rs[i].toString().split("=");
+                for (StatsEntity elem : songs) {
+                    if (elem.getSong().getName().equals(newS[0])) {
+                        CountEntity ce = new CountEntity(elem, newS[1]);
+                        result.add(ce);
+                        break;
+                    }
+                }
+                idx++;
+            }
+        }
+        return result;
     }
 
     /**

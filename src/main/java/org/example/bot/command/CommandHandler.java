@@ -2,6 +2,19 @@ package org.example.bot.command;
 
 import org.example.bot.Bot;
 import org.example.bot.command.listCommands.*;
+import org.example.bot.command.listCommands.UserBetweenUserCommands.GetPlaylistCommand;
+import org.example.bot.command.listCommands.UserBetweenUserCommands.SharePlaylistCommand;
+import org.example.bot.command.listCommands.coreSearchCommands.FindCommand;
+import org.example.bot.command.listCommands.coreSearchCommands.GetPopularCommand;
+import org.example.bot.command.listCommands.infoCommands.AboutCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.AddSongCommand;
+import org.example.bot.command.listCommands.infoCommands.HelpCommand;
+import org.example.bot.command.listCommands.infoCommands.StartCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.CreatePlaylistCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.GetMyPlaylistsCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.GetSongsFromPlaylistCommand;
+import org.example.bot.command.listCommands.statsCommands.GetTopSongsCommand;
+import org.example.bot.command.listCommands.statsCommands.LikeCommand;
 import org.example.bot.communicator.ICommunicator;
 import org.telegram.telegrambots.meta.api.objects.Message;
 

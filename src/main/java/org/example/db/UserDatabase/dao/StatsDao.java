@@ -61,7 +61,7 @@ public class StatsDao {
         List<StatsEntity> stats = HibernateUtils
                 .getSessionFactory()
                 .openSession()
-                .createQuery("From StatsEntity where timestamp > :limit", StatsEntity.class)
+                .createQuery("From StatsEntity where user IS NOT NULL and song is not null and timestamp > :limit", StatsEntity.class)
                 .setParameter("limit", limit)
                 .list();
         return stats;
@@ -78,7 +78,7 @@ public class StatsDao {
         List<StatsEntity> stats = HibernateUtils
                 .getSessionFactory()
                 .openSession()
-                .createQuery("From StatsEntity where timestamp > :limit", StatsEntity.class)
+                .createQuery("From StatsEntity where user IS NOT NULL and song is not null and timestamp > :limit", StatsEntity.class)
                 .setParameter("limit", limit)
                 .list();
         return stats;
@@ -95,7 +95,7 @@ public class StatsDao {
         List<StatsEntity> stats = HibernateUtils
                 .getSessionFactory()
                 .openSession()
-                .createQuery("From StatsEntity where timestamp > :limit", StatsEntity.class)
+                .createQuery("From StatsEntity where user IS NOT NULL and song is not null and timestamp > :limit", StatsEntity.class)
                 .setParameter("limit", limit)
                 .list();
         return stats;
