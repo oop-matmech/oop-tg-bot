@@ -4,6 +4,7 @@ import org.example.service.entities.singersEntities.GetTopItemSingersEntity;
 import org.example.service.entities.tracksEntities.GetTopItemTrackEntity;
 import org.example.service.music.service.auth.MusicAuth;
 import org.example.service.music.service.singers.topSingers.MusicTopSingers;
+import org.example.service.music.service.tracks.findtracks.MusicFindTracks;
 import org.example.service.music.service.tracks.topTracks.MusicTopTracks;
 
 import java.util.ArrayList;
@@ -26,5 +27,10 @@ public class MusicApi implements IMusicApi {
     public ArrayList<GetTopItemSingersEntity> getTopArtists(){
         MusicTopSingers musicTopSingers = new MusicTopSingers();
         return musicTopSingers.getTopArtists();
+    }
+
+    public ArrayList<GetTopItemTrackEntity> getTracksFoundByName(String trackName) {
+        MusicFindTracks musicFindTracks = new MusicFindTracks();
+        return musicFindTracks.getTracksFoundByName(trackName);
     }
 }

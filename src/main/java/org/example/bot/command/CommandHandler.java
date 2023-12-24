@@ -43,6 +43,7 @@ public class CommandHandler {
         HashMap<String, CommunicatorWrapper> hashMap = new HashMap<>();
         hashMap.put("/start", new StartCommand());
         hashMap.put("/about", new AboutCommand());
+        hashMap.put("/find", new FindCommand());
         hashMap.put("/help", new HelpCommand());
         hashMap.put("/get_popular", new GetPopularCommand());
         hashMap.put("/add", new AddSongCommand());

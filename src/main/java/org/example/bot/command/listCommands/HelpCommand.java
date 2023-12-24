@@ -33,7 +33,8 @@ public class HelpCommand extends CommunicatorWrapper implements Command {
             case "add" -> "Добавить песню";
             case "get_playlist" -> "Получить плейлист";
             case "get_my_playlists" -> "Получить все мои плейлисты";
-            default -> "А кому щас легко";
+            default ->
+                    "Привет! Я бот, который поможет тебе хранить все твои песни в плейлистах!\nВызови команду /about, чтобы узнать о всех командах!";
         };
     }
 
