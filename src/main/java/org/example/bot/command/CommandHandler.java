@@ -42,9 +42,9 @@ public class CommandHandler {
     public CommunicatorWrapper getCommand(String command, Message message) {
         HashMap<String, CommunicatorWrapper> hashMap = new HashMap<>();
         hashMap.put("/start", new StartCommand());
-        hashMap.put("/about", new AboutCommand());
+        hashMap.put("/about", new HelpCommand());
         hashMap.put("/find", new FindCommand());
-        hashMap.put("/help", new HelpCommand());
+        hashMap.put("/help", new AboutCommand());
         hashMap.put("/get_popular", new GetPopularCommand());
         hashMap.put("/add", new AddSongCommand());
         hashMap.put("/create_playlist", new CreatePlaylistCommand());

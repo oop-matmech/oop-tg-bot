@@ -20,10 +20,10 @@ public class AboutCommand extends CommunicatorWrapper implements Command {
                 bot,
                 message.getFrom().getId(),
                 """
-                        /get_popular - список популярных треков \n
                         /start - запуск \n
-                        /about - о командах \n
-                        /help - помощь об избранной команде \n
+                        /about - о боте \n
+                        /help - помощь об избранной команде \n\n
+                        /get_popular - список популярных треков \n
                         /find [имя песни] - найти песню по названию \n
                         /create_playlist [имя] - создать плейлист \n
                         /add [имя плейлиста] [url песни]- добавить песню в плейлист \n

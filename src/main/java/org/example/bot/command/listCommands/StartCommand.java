@@ -20,10 +20,10 @@ public class StartCommand extends CommunicatorWrapper implements Command {
                 bot,
                 message.getFrom().getId(),
                 """
-                        Добро пожаловать
-                        Команды:
-                        /help - памагите
-                        /about - хто я
+                        Привет, я музыкальный бот!
+                                                
+                        /help - мои команды
+                        /about - обо мне
                         """.trim()
         );
     }
