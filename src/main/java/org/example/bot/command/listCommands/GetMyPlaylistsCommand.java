@@ -25,6 +25,12 @@ public class GetMyPlaylistsCommand extends CommunicatorWrapper implements Comman
 
     @Override
     public void execute() {
+        communicator.sendText(
+                bot,
+                message.getFrom().getId(),
+                "Загрузка..."
+        );
+
         var from = message.getFrom();
         var currUser = userService.findByName(from.getUserName());
         List<PlayListEntity> playlists = currUser.getPlaylists();

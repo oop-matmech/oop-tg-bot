@@ -3,6 +3,7 @@ package org.example.db.UserDatabase.dbService;
 import org.example.db.UserDatabase.dao.PlayListDao;
 import org.example.db.UserDatabase.dbEntities.PlayListEntity;
 import org.example.db.UserDatabase.dbEntities.SongEntity;
+import org.example.db.UserDatabase.dbEntities.UserEntity;
 import org.example.db.UserDatabase.models.IPlaylistMethods;
 
 import java.util.List;
@@ -50,4 +51,23 @@ public class PlayListService implements IPlaylistMethods {
         return playListDao.getUserPlaylists(userId);
     }
 
+    public PlayListEntity findByNameFromUser(UserEntity userEntity, String userPlName) {
+        List<PlayListEntity> currentUserPlaylists = userEntity.getPlaylists();
+        for (PlayListEntity elem : currentUserPlaylists) {
+            if (elem.getName().equals(userPlName)) {
+                return elem;
+            }
+        }
+        return new PlayListEntity();
+    }
+
+    public boolean userAlreadyHasPlayList(UserEntity userEntity, String userPlName) {
+        List<PlayListEntity> currentUserPlaylists = userEntity.getPlaylists();
+        for (PlayListEntity elem : currentUserPlaylists) {
+            if (elem.getName().equals(userPlName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
