@@ -21,6 +21,15 @@ public class FindCommand extends CommunicatorWrapper implements Command {
 
     @Override
     public void execute() {
+        var trackName = message.getText().replace("/find", "").trim();
+        if (trackName.isEmpty()) {
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    "Не введено имя песни."
+            );
+            return;
+        }
         communicator.sendText(
                 bot,
                 message.getFrom().getId(),
@@ -28,7 +37,6 @@ public class FindCommand extends CommunicatorWrapper implements Command {
                         Ищем...
                         """.trim()
         );
-        var trackName = message.getText().replace("/find", "").trim();
         String res = "К сожалению, не удалось найти песни.";
         String api = formatTracks.format(musicApi.getTracksFoundByName(trackName, "10"));
         if (!api.equals(res)) {

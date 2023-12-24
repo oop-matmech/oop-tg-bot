@@ -4,9 +4,12 @@ import org.example.bot.Bot;
 import org.example.bot.command.Command;
 import org.example.bot.command.CommunicatorWrapper;
 import org.example.bot.communicator.ICommunicator;
+import org.example.db.UserDatabase.dbEntities.PlayListEntity;
 import org.example.db.UserDatabase.dbService.PlayListService;
 import org.example.utils.PlaylistUrlParser;
 import org.telegram.telegrambots.meta.api.objects.Message;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetPlaylistCommand extends CommunicatorWrapper implements Command {
     private PlayListService playListService = new PlayListService();
@@ -21,18 +24,42 @@ public class GetPlaylistCommand extends CommunicatorWrapper implements Command {
     @Override
     public void execute() {
         var args = message.getText().split(" ");
+        if (args.length == 1) {
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    "Не введён url плейлиста."
+            );
+            return;
+        }
         var url = args[1];
-        var playList = PlaylistUrlParser.getPlaylistFromUrl(url);
+        PlayListEntity playList = new PlayListEntity();
+        try {
+            playList = PlaylistUrlParser.getPlaylistFromUrl(url);
+        } catch (NullPointerException nullEx) {
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    "Такого плейлиста не существует.");
+            return;
+        }
+
         StringBuilder sb = new StringBuilder();
-        sb.append("Песни из плейлиста ")
+        AtomicInteger counter = new AtomicInteger();
+        sb.append("Песни из плейлиста \"")
                 .append(playList.getName())
-                .append(": \n");
-        playList.getSongs().forEach(it -> sb.append(it.getName())
+                .append("\": \n");
+        playList.getSongs().forEach(it -> sb
+                .append("-----")
+                .append(counter.incrementAndGet())
+                .append("-----\n")
+                .append(it.getName())
                 .append("\n")
                 .append(it.getArtistName())
-                .append("\n")
+                .append("\n-----------\n")
+                .append("URL: ")
                 .append(it.getUrl())
-                .append("\n\n\n")
+                .append("\n")
         );
         communicator.sendText(
                 bot,

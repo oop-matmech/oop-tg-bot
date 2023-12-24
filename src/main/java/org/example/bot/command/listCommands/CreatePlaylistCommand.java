@@ -28,6 +28,14 @@ public class CreatePlaylistCommand extends CommunicatorWrapper implements Comman
         var from = message.getFrom();
         var isExist = userService.findByName(from.getUserName()) != null;
 
+        if (args[0].trim().equals("")) {
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    "Не введено имя плейлиста."
+            );
+            return;
+        }
 
         try {
             if (!isExist) {

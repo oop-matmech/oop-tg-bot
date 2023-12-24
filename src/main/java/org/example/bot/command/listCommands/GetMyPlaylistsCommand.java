@@ -34,6 +34,13 @@ public class GetMyPlaylistsCommand extends CommunicatorWrapper implements Comman
         var from = message.getFrom();
         var currUser = userService.findByName(from.getUserName());
         List<PlayListEntity> playlists = currUser.getPlaylists();
+        if (playlists.isEmpty()) {
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    "У вас ещё нет сохранённых плейлистов."
+            );
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("Ваши плейлисты: \n");
         AtomicInteger counter = new AtomicInteger();

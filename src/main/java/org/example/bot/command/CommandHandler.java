@@ -48,7 +48,7 @@ public class CommandHandler {
         hashMap.put("/get_popular", new GetPopularCommand());
         hashMap.put("/add", new AddSongCommand());
         hashMap.put("/create_playlist", new CreatePlaylistCommand());
-        hashMap.put("/get_songs_from_playlist", new GetSongsFromPlaylistCommand());
+        hashMap.put("/get", new GetSongsFromPlaylistCommand());
         hashMap.put("/get_my_playlists", new GetMyPlaylistsCommand());
         hashMap.put("/share_playlist", new SharePlaylistCommand());
         hashMap.put("/get_playlist", new GetPlaylistCommand());

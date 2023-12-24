@@ -36,6 +36,14 @@ public class GetSongsFromPlaylistCommand extends CommunicatorWrapper implements 
                         """.trim()
         );
         var args = message.getText().trim().split(" ");
+        if (args.length == 1) {
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    "Не введено имя плейлиста."
+            );
+            return;
+        }
         var playlistName = args[1];
         var from = message.getFrom();
 
@@ -77,6 +85,6 @@ public class GetSongsFromPlaylistCommand extends CommunicatorWrapper implements 
 
     @Override
     public String name() {
-        return "get songs";
+        return "get";
     }
 }
