@@ -8,12 +8,11 @@ import org.example.db.UserDatabase.dbEntities.PlayListEntity;
 import org.example.db.UserDatabase.dbEntities.SongEntity;
 import org.example.db.UserDatabase.dbService.PlayListService;
 import org.example.db.UserDatabase.dbService.UserService;
-import org.example.service.music.MusicApi;
-import org.example.utils.FormatArtists;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetSongsFromPlaylistCommand extends CommunicatorWrapper implements Command {
     private final PlayListService playListService = new PlayListService();
@@ -55,14 +54,20 @@ public class GetSongsFromPlaylistCommand extends CommunicatorWrapper implements 
 
         Set<SongEntity> songs = playListService.getSongsFromPlaylist(playList.getId());
         StringBuilder sb = new StringBuilder();
-        String begin = "Песни из плейлиста " + playlistName + ": \n";
-        sb.append(begin);
+        AtomicInteger counter = new AtomicInteger();
+        if (songs.isEmpty()) {
+            sb.append("Плейлист пуст.");
+        } else {
 
-        songs.forEach(it -> {
-            sb.append(it.toString());
-            sb.append("\n\n");
-        });
+            String begin = "Песни из плейлиста " + playlistName + ": \n";
+            sb.append(begin);
 
+            songs.forEach(it -> {
+                sb.append("-----").append(counter.incrementAndGet()).append("-----\n");
+                sb.append(it.toString());
+                sb.append("\n\n");
+            });
+        }
         communicator.sendText(
                 bot,
                 message.getFrom().getId(),

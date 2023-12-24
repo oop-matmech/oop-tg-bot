@@ -9,16 +9,20 @@ import org.example.db.UserDatabase.dbService.PlayListService;
 import org.example.db.UserDatabase.dbService.SongsService;
 import org.example.db.UserDatabase.dbService.UserService;
 import org.example.service.entities.tracksEntities.GetTopItemTrackEntity;
-import org.example.service.music.service.tracks.topTracks.MusicTopTracks;
-import org.example.utils.FormatTracks;
+import org.example.service.music.service.tracks.findtracks.MusicFindTracks;
+import org.example.service.music.service.tracks.info.MusicGetInfo;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AddSongCommand extends CommunicatorWrapper implements Command {
     private final SongsService songsService = new SongsService();
     private final PlayListService playListService = new PlayListService();
-    private final MusicTopTracks musicTopTracks = new MusicTopTracks();
+    private final MusicGetInfo musicGetInfo = new MusicGetInfo();
+
 
 
     public AddSongCommand() {
@@ -40,13 +44,19 @@ public class AddSongCommand extends CommunicatorWrapper implements Command {
         var args = message.getText().split(" ");
         var playlistName = args[1];
         var url = args[2];
+        var trashName = url.split("/");
+        var trackName = Arrays.stream(trashName[4].split("[+|,]")).collect(Collectors.joining(" ")) + " " + Arrays.stream(trashName[6].split("[+|,]")).collect(Collectors.joining(" "));
 
-        ArrayList<GetTopItemTrackEntity> music = musicTopTracks.getTopTracks();
-        GetTopItemTrackEntity track = music
+        ArrayList<GetTopItemTrackEntity> music = new MusicFindTracks().getTracksFoundByName(trackName, "30");
+        List<GetTopItemTrackEntity> trackList = music
                 .stream()
                 .filter(it -> it.getUrl().equals(url))
-                .toList()
-                .get(0);
+                .toList();
+        GetTopItemTrackEntity track = new GetTopItemTrackEntity();
+        if (!trackList.isEmpty()) {
+            track = trackList.get(0);
+            track = musicGetInfo.getTrackInfo(track.getName(), track.getArtist().name);
+        }
         SongEntity newSong = new SongEntity(track.getName(), track.getDuration(), track.getUrl(), track.getArtist().name);
         try {
             songsService.save(newSong);

@@ -29,8 +29,8 @@ public class MusicApi implements IMusicApi {
         return musicTopSingers.getTopArtists();
     }
 
-    public ArrayList<GetTopItemTrackEntity> getTracksFoundByName(String trackName) {
+    public ArrayList<GetTopItemTrackEntity> getTracksFoundByName(String trackName, String limit) {
         MusicFindTracks musicFindTracks = new MusicFindTracks();
-        return musicFindTracks.getTracksFoundByName(trackName);
+        return musicFindTracks.getTracksFoundByName(trackName, limit);
     }
 }

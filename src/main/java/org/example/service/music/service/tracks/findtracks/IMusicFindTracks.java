@@ -5,5 +5,5 @@ import org.example.service.entities.tracksEntities.GetTopItemTrackEntity;
 import java.util.ArrayList;
 
 public interface IMusicFindTracks {
-    public ArrayList<GetTopItemTrackEntity> getTracksFoundByName(String trackName);
+    public ArrayList<GetTopItemTrackEntity> getTracksFoundByName(String trackName, String limit);
 }

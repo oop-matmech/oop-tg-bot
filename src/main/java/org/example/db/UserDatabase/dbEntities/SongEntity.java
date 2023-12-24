@@ -117,7 +117,6 @@ public class SongEntity {
     }
 
     public String toString() {
-        String res = "name = " + name + " url = " + url + " artistName = " + artistName;
-        return res;
+        return name + "\n" + artistName + "\n-------\nurl:" + url;
     }
 }

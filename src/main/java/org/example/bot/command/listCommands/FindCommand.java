@@ -25,12 +25,15 @@ public class FindCommand extends CommunicatorWrapper implements Command {
                 bot,
                 message.getFrom().getId(),
                 """
-                        Загрузка...
+                        Ищем...
                         """.trim()
         );
         var trackName = message.getText().replace("/find", "").trim();
-        String api = formatTracks.format(musicApi.getTracksFoundByName(trackName));
-        String res = String.format("Найденные песни:\n%s", api);
+        String res = "К сожалению, не удалось найти песни.";
+        String api = formatTracks.format(musicApi.getTracksFoundByName(trackName, "10"));
+        if (!api.equals(res)) {
+            res = String.format("Найденные песни:\n%s", api);
+        }
         String[] arr = res.split("\n\n");
         for (String s : arr) {
             communicator.sendText(

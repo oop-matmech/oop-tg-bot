@@ -10,6 +10,7 @@ import org.example.db.UserDatabase.dbService.UserService;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GetMyPlaylistsCommand extends CommunicatorWrapper implements Command {
     private final PlayListService playListService = new PlayListService();
@@ -29,10 +30,12 @@ public class GetMyPlaylistsCommand extends CommunicatorWrapper implements Comman
         List<PlayListEntity> playlists = currUser.getPlaylists();
         StringBuilder sb = new StringBuilder();
         sb.append("Ваши плейлисты: \n");
+        AtomicInteger counter = new AtomicInteger();
         playlists.forEach(it ->
-                sb.append(it.getId())
+                sb.append(counter.incrementAndGet())
                         .append(". ")
                         .append(it.getName())
+                        .append("\n")
         );
         communicator.sendText(
                 bot,
