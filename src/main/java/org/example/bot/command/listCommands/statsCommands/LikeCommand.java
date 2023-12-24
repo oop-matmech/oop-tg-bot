@@ -1,4 +1,4 @@
-package org.example.bot.command.listCommands;
+package org.example.bot.command.listCommands.statsCommands;
 
 import org.example.bot.Bot;
 import org.example.bot.command.Command;
