@@ -39,6 +39,12 @@ public class LikeCommand extends CommunicatorWrapper implements Command {
         var args = message.getText().split(" ");
         if (args.length == 1) {
             messageOutput = "Не введен url песни";
+            communicator.sendText(
+                    bot,
+                    message.getFrom().getId(),
+                    messageOutput
+            );
+            return;
         }
         var songUrl = args[1];
         var trashName = songUrl.split("/");
