@@ -32,6 +32,7 @@ public class GetMyPlaylistsCommand extends CommunicatorWrapper implements Comman
         );
 
         var from = message.getFrom();
+        var username1 = from.getUserName();
         var currUser = userService.findByName(from.getUserName());
         List<PlayListEntity> playlists = currUser.getPlaylists();
         if (playlists.isEmpty()) {

@@ -58,31 +58,31 @@ public class GetTopSongsCommand extends CommunicatorWrapper implements Command {
         switch (command) {
             case "/get_top_10_24h":
                 res.append("Топ за 24 часа: \n\n");
-                if (playListService.userAlreadyHasPlayList(user, "Топ 10 за день")) {
-                    playListService.delete(playListService.findByNameFromUser(user, "Топ 10 за день"));
-                }
-                playList = new PlayListEntity("Топ 10 за день", "выбранные пользователями треки!", user);
-                userService.addPlaylist(user.getId(), playList);
+//                if (playListService.userAlreadyHasPlayList(user, "Топ 10 за день")) {
+//                    playListService.delete(playListService.findByNameFromUser(user, "Топ 10 за день"));
+//                }
+//                playList = new PlayListEntity("Топ 10 за день", "выбранные пользователями треки!", user);
+//                userService.addPlaylist(user.getId(), playList);
                 break;
             case "/get_top_10_1w":
                 itemStats = statsService.getStatsWeek();
-                if (playListService.userAlreadyHasPlayList(user, "Топ 10 за неделю")) {
-                    try {
-                        playListService.delete(playListService.findByNameFromUser(user, "Топ 10 за неделю"));
-                    } catch (Exception ignored) {
-                    }
-                }
-                playList = new PlayListEntity("Топ 10 за неделю", "выбранные пользователями треки!", user);
-                userService.addPlaylist(user.getId(), playList);
+//                if (playListService.userAlreadyHasPlayList(user, "Топ 10 за неделю")) {
+//                    try {
+//                        playListService.delete(playListService.findByNameFromUser(user, "Топ 10 за неделю"));
+//                    } catch (Exception ignored) {
+//                    }
+//                }
+//                playList = new PlayListEntity("Топ 10 за неделю", "выбранные пользователями треки!", user);
+//                userService.addPlaylist(user.getId(), playList);
                 res.append("Топ за неделю: \n\n");
                 break;
             case "/get_top_10_1m":
                 itemStats = statsService.getStatsMonth();
-                if (playListService.userAlreadyHasPlayList(user, "Топ 10 за месяц")) {
-                    playListService.delete(playListService.findByNameFromUser(user, "Топ 10 за месяц"));
-                }
-                playList = new PlayListEntity("Топ 10 за месяц", "выбранные пользователями треки!", user);
-                userService.addPlaylist(user.getId(), playList);
+//                if (playListService.userAlreadyHasPlayList(user, "Топ 10 за месяц")) {
+//                    playListService.delete(playListService.findByNameFromUser(user, "Топ 10 за месяц"));
+//                }
+//                playList = new PlayListEntity("Топ 10 за месяц", "выбранные пользователями треки!", user);
+//                userService.addPlaylist(user.getId(), playList);
                 res.append("Топ за месяц: \n\n");
                 break;
         }
@@ -93,26 +93,27 @@ public class GetTopSongsCommand extends CommunicatorWrapper implements Command {
             if (idx == 11) {
                 break;
             } else {
-                res.append(String.format("%s. %s - %s прослушиваний \n", idx, itemStats.get(i).stats.getSong().getName(), itemStats.get(i).counter));
-                SongEntity currSong = itemStats.get(i).stats.getSong();
-                var boolAdding = playListService.addSongToPlaylist(playList.getId(), currSong);
-                currSong.addPlaylist(playList);
-                try {
-                    songsService.update(currSong);
-                } catch (Exception ignored) {
-                }
+                res.append(String.format("%s. %s - %s прослушиваний \n url: %s \n ----------\n", idx, itemStats.get(i).stats.getSong().getName(), itemStats.get(i).counter, itemStats.get(i).stats.getSong().getUrl()));
+//                SongEntity currSong = itemStats.get(i).stats.getSong();
+//                var boolAdding = playListService.addSongToPlaylist(playList.getId(), currSong);
+//                currSong.addPlaylist(playList);
+//                try {
+//                    songsService.update(currSong);
+//                } catch (Exception ignored) {
+//                }
                 idx++;
             }
         }
 
         if (itemStats.isEmpty()) {
             res.append("За выбранные промежуток времени нет чарта.");
-        } else {
-            res.append("\n\nСсылка на плейлист: ")
-                    .append(PlaylistUrlParser.toURL(playList))
-                    .append("\n");
-
         }
+//        else {
+//            res.append("\n\nСсылка на плейлист: ")
+//                    .append(PlaylistUrlParser.toURL(playList))
+//                    .append("\n");
+
+//        }
         communicator.sendText(
                 bot,
                 message.getFrom().getId(),
