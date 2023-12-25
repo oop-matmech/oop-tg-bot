@@ -4,6 +4,7 @@ import org.example.bot.Bot;
 import org.example.bot.command.Command;
 import org.example.bot.command.CommunicatorWrapper;
 import org.example.bot.communicator.ICommunicator;
+import org.example.db.UserDatabase.dao.StatsDao;
 import org.example.db.UserDatabase.dbEntities.SongEntity;
 import org.example.db.UserDatabase.dbEntities.StatsEntity;
 import org.example.db.UserDatabase.dbService.SongsService;
@@ -35,6 +36,7 @@ public class LikeCommand extends CommunicatorWrapper implements Command {
 
     @Override
     public void execute() {
+        boolean liked = false;
         String messageOutput = "";
         var args = message.getText().split(" ");
         if (args.length == 1) {
@@ -70,6 +72,22 @@ public class LikeCommand extends CommunicatorWrapper implements Command {
                 SongEntity currSong = songsService.findByUrl(newSong.getUrl());
                 var from = message.getFrom();
                 var currUser = userService.findByName(from.getUserName());
+
+                ArrayList<StatsService.CountEntity> today = statsService.getStatsDay();
+                for (StatsService.CountEntity elem : today){
+                    if (elem.stats.getUser().getId() == currUser.getId() && elem.stats.getSong().getUrl().equals(currSong.getUrl())){
+                        communicator.sendText(
+                                bot,
+                                message.getFrom().getId(),
+                                """
+                                        Сегодня вы уже лайкали эту песню.
+                                        """.trim()
+                        );
+                        liked = true;
+                        return;
+                    }
+                }
+
                 StatsEntity stats = new StatsEntity(currUser, currSong);
                 statsService.save(stats);
             } catch (Exception e) {
@@ -82,6 +100,7 @@ public class LikeCommand extends CommunicatorWrapper implements Command {
                                 """.trim()
                 );
             } finally {
+                if (liked) { return; }
                 communicator.sendText(
                         bot,
                         message.getFrom().getId(),
