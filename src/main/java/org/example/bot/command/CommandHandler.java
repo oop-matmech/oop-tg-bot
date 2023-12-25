@@ -2,6 +2,19 @@ package org.example.bot.command;
 
 import org.example.bot.Bot;
 import org.example.bot.command.listCommands.*;
+import org.example.bot.command.listCommands.UserBetweenUserCommands.GetPlaylistCommand;
+import org.example.bot.command.listCommands.UserBetweenUserCommands.SharePlaylistCommand;
+import org.example.bot.command.listCommands.coreSearchCommands.FindCommand;
+import org.example.bot.command.listCommands.coreSearchCommands.GetPopularCommand;
+import org.example.bot.command.listCommands.infoCommands.AboutCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.AddSongCommand;
+import org.example.bot.command.listCommands.infoCommands.HelpCommand;
+import org.example.bot.command.listCommands.infoCommands.StartCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.CreatePlaylistCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.GetMyPlaylistsCommand;
+import org.example.bot.command.listCommands.playlistsCommmands.GetSongsFromPlaylistCommand;
+import org.example.bot.command.listCommands.statsCommands.GetTopSongsCommand;
+import org.example.bot.command.listCommands.statsCommands.LikeCommand;
 import org.example.bot.communicator.ICommunicator;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -42,12 +55,13 @@ public class CommandHandler {
     public CommunicatorWrapper getCommand(String command, Message message) {
         HashMap<String, CommunicatorWrapper> hashMap = new HashMap<>();
         hashMap.put("/start", new StartCommand());
-        hashMap.put("/about", new AboutCommand());
-        hashMap.put("/help", new HelpCommand());
+        hashMap.put("/about", new HelpCommand());
+        hashMap.put("/find", new FindCommand());
+        hashMap.put("/help", new AboutCommand());
         hashMap.put("/get_popular", new GetPopularCommand());
         hashMap.put("/add", new AddSongCommand());
         hashMap.put("/create_playlist", new CreatePlaylistCommand());
-        hashMap.put("/get_songs_from_playlist", new GetSongsFromPlaylistCommand());
+        hashMap.put("/get", new GetSongsFromPlaylistCommand());
         hashMap.put("/get_my_playlists", new GetMyPlaylistsCommand());
         hashMap.put("/share_playlist", new SharePlaylistCommand());
         hashMap.put("/get_playlist", new GetPlaylistCommand());

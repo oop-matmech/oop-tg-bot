@@ -7,14 +7,16 @@ import java.util.stream.Collectors;
 
 public class FormatTracks {
     public String format(ArrayList<GetTopItemTrackEntity> data) {
-        String res = data.stream().map(it ->
-                        "NAME: " + it.getName() + "\n"
-                                + "ARTIST: " + it.getArtist().name + "\n"
-                                + "URL: " + it.getUrl() + "\n"
-                                + "DURATION: " + it.getDuration() + "\n"
-                                + "LISTENERS: " + it.getListeners()
-                )
-                .collect(Collectors.joining("\n\n"));
-        return res;
+        if (data.isEmpty()) {
+            return "К сожалению, не удалось найти песни.";
+        } else {
+            return data.stream().map(it ->
+                            it.getName() + "\n"
+                                    + it.getArtist().name + "\n"
+                                    + "Прослушиваний: " + it.getListeners() + "\n-----------\n"
+                                    + "URL: " + it.getUrl()
+                    )
+                    .collect(Collectors.joining("\n\n"));
+        }
     }
 }

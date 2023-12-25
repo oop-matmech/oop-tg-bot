@@ -1,11 +1,40 @@
 package org.example.service.entities.tracksEntities;
 public class GetTopItemTrackEntity {
+
+    public GetTopItemTrackEntity(String name, Integer duration, Integer playcount, Integer listeners, String mbid, String url, Streamable streamable, Artist artist) {
+        this.name = name;
+        this.duration = duration;
+        this.playcount = playcount;
+        this.listeners = listeners;
+        this.mbid = mbid;
+        this.url = url;
+        this.streamable = streamable;
+        this.artist = artist;
+    }
+
+    public GetTopItemTrackEntity() {
+        this.name = "";
+        this.duration = null;
+        this.playcount = null;
+        this.listeners = 0;
+        this.mbid = "";
+        this.url = "";
+        this.streamable = new Streamable();
+        this.artist = new Artist();
+    }
+
     public class Streamable {
         public String text;
         public Integer fulltrack;
     }
 
     public class Artist {
+        public Artist() {
+            this.name = null;
+            this.mbid = null;
+            this.url = null;
+        }
+
         public String name;
         public String mbid;
         public String url;
@@ -25,7 +54,7 @@ public class GetTopItemTrackEntity {
     }
 
     public Integer getDuration() {
-        return duration;
+        return (duration == null) ? 0 : duration;
     }
 
     public Integer getPlaycount() {
@@ -82,5 +111,13 @@ public class GetTopItemTrackEntity {
 
     public Artist getArtist() {
         return artist;
+    }
+
+    public void setArtistName(String name) {
+        artist.name = name;
+    }
+
+    public void setStreamableText(String text) {
+        streamable.text = text;
     }
 }

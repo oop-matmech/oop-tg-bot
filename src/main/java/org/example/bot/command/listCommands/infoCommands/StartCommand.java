@@ -1,4 +1,4 @@
-package org.example.bot.command.listCommands;
+package org.example.bot.command.listCommands.infoCommands;
 
 import org.example.bot.Bot;
 import org.example.bot.command.Command;
@@ -20,10 +20,10 @@ public class StartCommand extends CommunicatorWrapper implements Command {
                 bot,
                 message.getFrom().getId(),
                 """
-                        Добро пожаловать
-                        Команды:
-                        /help - памагите
-                        /about - хто я
+                        Привет, я музыкальный бот!
+                                                
+                        /help - мои команды
+                        /about - обо мне
                         """.trim()
         );
     }

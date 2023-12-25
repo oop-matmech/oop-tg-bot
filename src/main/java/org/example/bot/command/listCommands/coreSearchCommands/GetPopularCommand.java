@@ -1,4 +1,4 @@
-package org.example.bot.command.listCommands;
+package org.example.bot.command.listCommands.coreSearchCommands;
 
 import org.example.bot.Bot;
 import org.example.bot.command.Command;
